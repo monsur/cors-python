@@ -1,5 +1,5 @@
-from list_validator import ListValidator
 import unittest
+from list_validator import ListValidator
 
 
 class TestListValidator(unittest.TestCase):

@@ -1,7 +1,7 @@
+import unittest
 from cors_options import CorsOptions
 from cors_response import CorsResponse
 from max_age_filter import MaxAgeFilter
-import unittest
 
 
 class TestMaxAgeFilter(unittest.TestCase):

@@ -1,9 +1,8 @@
+import http_response
 from cors_exception import CorsException
 from cors_response import CorsResponse
 from cors_request import CorsRequest
 from filters import Filters
-from http_response import HttpResponse
-import http_response
 
 
 class CorsHandler:

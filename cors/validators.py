@@ -1,6 +1,6 @@
+import types
 from boolean_validator import BooleanValidator
 from list_validator import ListValidator
-import types
 
 
 def create(obj):

@@ -1,7 +1,7 @@
+import unittest
 from cors_options import CorsOptions
 from cors_response import CorsResponse
 from vary_filter import VaryFilter
-import unittest
 
 
 class TestVaryFilter(unittest.TestCase):

@@ -1,7 +1,7 @@
+import unittest
 from cors_options import CorsOptions
 from cors_response import CorsResponse
 from allow_credentials_filter import AllowCredentialsFilter
-import unittest
 
 
 class TestAllowCredentialsFilter(unittest.TestCase):

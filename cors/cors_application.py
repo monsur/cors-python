@@ -1,6 +1,6 @@
+import webob
 from cors_handler import CorsHandler
 from http_response import ResponseState
-import webob
 
 
 class CorsApplication(object):

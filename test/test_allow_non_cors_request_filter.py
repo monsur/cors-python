@@ -1,8 +1,7 @@
-
+import unittest
 from cors_options import CorsOptions
 from cors_response import CorsResponse
 from allow_non_cors_request_filter import AllowNonCorsRequestFilter
-import unittest
 
 
 class TestAllowNonCorsRequestFilter(unittest.TestCase):

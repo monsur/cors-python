@@ -1,7 +1,7 @@
+import unittest
 from cors_options import CorsOptions
 from cors_response import CorsResponse
 from expose_headers_filter import ExposeHeadersFilter
-import unittest
 
 
 class TestExposeHeadersFilter(unittest.TestCase):

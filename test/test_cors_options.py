@@ -1,8 +1,8 @@
+import cors_options
+import unittest
 from cors.cors_options import CorsOptions
 from cors.boolean_validator import BooleanValidator
 from cors.list_validator import ListValidator
-import cors_options
-import unittest
 
 
 class TestCorsOptions(unittest.TestCase):

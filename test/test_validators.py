@@ -1,7 +1,7 @@
-from cors.boolean_validator import BooleanValidator
-from cors.list_validator import ListValidator
 import cors.validators
 import unittest
+from cors.boolean_validator import BooleanValidator
+from cors.list_validator import ListValidator
 
 
 class TestValidators(unittest.TestCase):
