@@ -75,3 +75,11 @@ headers (i.e. x-prefix-.*)
 
 * Function (coming soon) - Allows you to write your own function to validate the
 input.
+
+# Integrating with your own app
+
+If the WSGI middleware does not meet your needs, you can always integrate with
+the CORS library by writing your own handler. Your handler should call the
+CorsHandler class in order to do the heavy lifting. See
+[cors_application.py](https://github.com/monsur/cors-python/blob/master/cors/cors_application.py)
+for an example of how to integrate with this library.
