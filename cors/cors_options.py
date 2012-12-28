@@ -11,10 +11,10 @@ class CorsOptions:
     def __init__(self,
                  allow_origins=True,
                  allow_credentials=False,
+                 allow_methods=None,
+                 allow_headers=True,
                  expose_headers = None,
                  max_age=None,
-                 allow_methods=None,
-                 allow_headers=None,
                  vary=None,
                  allow_non_cors_requests=True,
                  continue_on_error=False):
