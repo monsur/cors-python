@@ -1,17 +1,14 @@
-cors-python
-===========
+# cors-python
 
 A server-side CORS implementation for Python. This library is currently under
 construction and is a very pre-alpha release. Testing and feedback welcome!
 
 
-Installation
-============
+# Installation
 
 Nothing fancy for now, just copy the cors/ directory over.
 
-Usage
-=====
+# Usage
 
 See the app engine app under the "examples" directory for a sample usage.
 
@@ -60,8 +57,7 @@ allowed. Defaults to True.
 _continue\_on\_error_ (bool) - Whether an invalid CORS request should trigger
 an error, or continue processing. Defaults to False.
 
-Validators
-----------
+## Validators
 
 A few options above are marked as the special type "Validator". This type is
 used to validate the origin, http method, and header values. The actual type
