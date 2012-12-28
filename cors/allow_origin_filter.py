@@ -1,4 +1,4 @@
-from cors_exception import AllowOriginException
+from errors import AllowOriginError
 from filter import Filter
 
 
@@ -10,16 +10,15 @@ class AllowOriginFilter(Filter):
     def filter(self, request, response):
         origin = request.origin
         is_valid_origin = self.options.origin_validator.is_valid(origin)
-        if not is_valid_origin:
-            return AllowOriginException(origin)
-        response.allow_origin = self.get_origin_value(origin)
 
-    def get_origin_value(self, origin):
         origin_value = self.options.origin_value
+
+        if not is_valid_origin:
+            response.allow_origin = origin_value
+            return AllowOriginError(origin)
+
         if (self.options.allow_credentials or
-             not origin_value) and not self.options.continue_on_error:
+            not origin_value):
             origin_value = origin
-        return origin_value
 
-
-
+        response.allow_origin = origin_value

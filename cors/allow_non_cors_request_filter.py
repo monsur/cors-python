@@ -1,4 +1,4 @@
-from cors_exception import NonCorsRequestException
+from errors import NonCorsRequestError
 from filter import Filter
 
 
@@ -9,4 +9,4 @@ class AllowNonCorsRequestFilter(Filter):
 
     def filter(self, request, response):
         if not self.options.allow_non_cors_requests:
-            return NonCorsRequestException()
+            return NonCorsRequestError()

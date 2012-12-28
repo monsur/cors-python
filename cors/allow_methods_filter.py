@@ -1,4 +1,4 @@
-from cors_exception import AllowMethodsException
+from errors import AllowMethodsError
 from filter import Filter
 
 
@@ -12,9 +12,11 @@ class AllowMethodsFilter(Filter):
             request.request_method)
 
         allow_methods = self.options.methods_value
-        if not allow_methods and not self.options.continue_on_error:
-            allow_methods = [request.request_method]
-        response.allow_methods = allow_methods
 
         if not is_valid:
-            return AllowMethodsException(request.request_method)
+            response.allow_methods = allow_methods
+            return AllowMethodsError(request.request_method)
+
+        if not allow_methods:
+            allow_methods = [request.request_method]
+        response.allow_methods = allow_methods

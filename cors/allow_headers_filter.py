@@ -1,4 +1,4 @@
-from cors_exception import AllowHeadersException
+from errors import AllowHeadersError
 from filter import Filter
 
 
@@ -23,9 +23,11 @@ class AllowHeadersFilter(Filter):
                 not_valid.append(header)
 
         headers_value = self.options.headers_value
-        if not headers_value and not self.options.continue_on_error:
-            headers_value = valid
-        response.allow_headers = headers_value
 
         if len(not_valid):
-            return AllowHeadersException(not_valid)
+            response.allow_headers = headers_value
+            return AllowHeadersError(not_valid)
+
+        if not headers_value:
+            headers_value = valid
+        response.allow_headers = headers_value
