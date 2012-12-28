@@ -1,1 +1,1 @@
-ls -1 test/test_*.py | xargs -L1 python
+ls -1 tests/test_*.py | xargs -L1 python
