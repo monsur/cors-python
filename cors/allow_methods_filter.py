@@ -10,10 +10,11 @@ class AllowMethodsFilter(Filter):
     def filter(self, request, response):
         is_valid = self.options.methods_validator.is_valid(
             request.request_method)
-        if not is_valid:
-            return AllowMethodsException(request.request_method)
 
         allow_methods = self.options.methods_value
-        if not allow_methods:
+        if not allow_methods and not self.options.continue_on_error:
             allow_methods = [request.request_method]
         response.allow_methods = allow_methods
+
+        if not is_valid:
+            return AllowMethodsException(request.request_method)

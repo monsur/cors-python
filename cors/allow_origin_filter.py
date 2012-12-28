@@ -17,7 +17,7 @@ class AllowOriginFilter(Filter):
     def get_origin_value(self, origin):
         origin_value = self.options.origin_value
         if (self.options.allow_credentials or
-             not origin_value):
+             not origin_value) and not self.options.continue_on_error:
             origin_value = origin
         return origin_value
 

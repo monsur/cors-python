@@ -22,10 +22,10 @@ class AllowHeadersFilter(Filter):
             else:
                 not_valid.append(header)
 
-        if len(not_valid):
-            return AllowHeadersException(not_valid)
-
         headers_value = self.options.headers_value
-        if not headers_value:
+        if not headers_value and not self.options.continue_on_error:
             headers_value = valid
         response.allow_headers = headers_value
+
+        if len(not_valid):
+            return AllowHeadersException(not_valid)

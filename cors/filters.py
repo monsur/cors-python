@@ -42,6 +42,8 @@ class Filters(object):
             'vary',
             'allow_non_cors_request')
 
+        self.continue_on_error = options.continue_on_error
+
     def create_filters(self, all_filters, *args):
         filters = []
         for arg in args:
@@ -52,7 +54,7 @@ class Filters(object):
         filters = self.choose_filters(request)
         for f in filters:
             error = f.filter(request, response)
-            if error:
+            if error and not self.continue_on_error:
                 return error
         return None
 

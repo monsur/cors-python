@@ -26,4 +26,4 @@ class MainHandler(webapp2.RequestHandler):
 webapp = webapp2.WSGIApplication([
     ('/', MainHandler)
 ], debug=True)
-app = CorsApplication(webapp, CorsOptions())
+app = CorsApplication(webapp, CorsOptions(allow_origins=['http://blah.com'], continue_on_error=True))

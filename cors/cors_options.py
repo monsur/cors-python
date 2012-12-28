@@ -16,8 +16,10 @@ class CorsOptions:
                  allow_methods=None,
                  allow_headers=None,
                  vary=None,
-                 allow_non_cors_requests=True):
+                 allow_non_cors_requests=True,
+                 continue_on_error=False):
         self.allow_non_cors_requests = allow_non_cors_requests
+        self.continue_on_error = continue_on_error
         self.origin_validator = validators.create(allow_origins)
         self.origin_value = None
         if allow_origins == True:
