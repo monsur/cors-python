@@ -60,4 +60,22 @@ allowed. Defaults to True.
 _continue\_on\_error_ (bool) - Whether an invalid CORS request should trigger
 an error, or continue processing. Defaults to False.
 
-_
+Validators
+----------
+
+A few options above are marked as the special type "Validator". This type is
+used to validate the origin, http method, and header values. The actual type
+of the property can be set to various values, depending on the need:
+
+* Boolean: A value of True indicates that all values are allowed. A value
+of False indicates that no value is allowed.
+
+* List of strings: The list of valid values. For example, the default list of
+HTTP methods is ['HEAD', 'GET', 'PUT', 'POST', 'DELETE'].
+
+* Regex (coming soon) - A regular expression to validate the value. Could be
+useful for validating a set of subdomains (i.e. http://.*\.foo\.com) or custom
+headers (i.e. x-prefix-.*)
+
+* Function (coming soon) - Allows you to write your own function to validate the
+input.
