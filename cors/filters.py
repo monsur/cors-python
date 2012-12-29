@@ -1,12 +1,4 @@
-from allow_credentials_filter import AllowCredentialsFilter
-from allow_headers_filter import AllowHeadersFilter
-from allow_methods_filter import AllowMethodsFilter
-from allow_non_cors_request_filter import AllowNonCorsRequestFilter
-from allow_origin_filter import AllowOriginFilter
-from cors_filter import CorsFilter
-from expose_headers_filter import ExposeHeadersFilter
-from max_age_filter import MaxAgeFilter
-from vary_filter import VaryFilter
+import errors
 
 
 class Filters(object):
@@ -65,3 +57,133 @@ class Filters(object):
             return self.cors_filters
         else:
             return self.non_cors_filters
+
+
+class Filter:
+
+    def __init__(self, options):
+        self.options = options
+
+
+class AllowCredentialsFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        if self.options.allow_credentials:
+            response.allow_credentials = True
+
+
+class AllowHeadersFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        request_headers = request.request_headers
+        if not request_headers:
+            return
+        if not len(request_headers):
+            return
+
+        valid = []
+        not_valid = []
+        for header in request_headers:
+            if self.options.headers_validator.is_valid(header):
+                valid.append(header)
+            else:
+                not_valid.append(header)
+
+        headers_value = self.options.headers_value
+
+        if len(not_valid):
+            response.allow_headers = headers_value
+            return errors.AllowHeadersError(not_valid)
+
+        if not headers_value:
+            headers_value = valid
+        response.allow_headers = headers_value
+
+
+class AllowMethodsFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        is_valid = self.options.methods_validator.is_valid(
+            request.request_method)
+
+        allow_methods = self.options.methods_value
+
+        if not is_valid:
+            response.allow_methods = allow_methods
+            return errors.AllowMethodsError(request.request_method)
+
+        if not allow_methods:
+            allow_methods = [request.request_method]
+        response.allow_methods = allow_methods
+
+
+class AllowNonCorsRequestFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        if not self.options.allow_non_cors_requests:
+            return errors.NonCorsRequestError()
+
+
+class AllowOriginFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        origin = request.origin
+        is_valid_origin = self.options.origin_validator.is_valid(origin)
+
+        origin_value = self.options.origin_value
+
+        if not is_valid_origin:
+            response.allow_origin = origin_value
+            return errors.AllowOriginError(origin)
+
+        if (self.options.allow_credentials or
+            not origin_value):
+            origin_value = origin
+
+        response.allow_origin = origin_value
+
+
+class ExposeHeadersFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        if len(self.options.expose_headers):
+            response.expose_headers = self.options.expose_headers
+
+
+class MaxAgeFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        if self.options.max_age:
+            response.max_age = self.options.max_age
+
+
+class VaryFilter(Filter):
+
+    def __init__(self, options):
+        Filter.__init__(self, options)
+
+    def filter(self, request, response):
+        if self.options.vary:
+            response.headers['Vary'] = 'Origin'
+
