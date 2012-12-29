@@ -8,7 +8,7 @@ class HttpResponse(object):
     def __init__(self):
         self.headers = {}
         self.state = ResponseState.CONTINUE
-        self.status = 200
+        self.status = '200 OK'
         self.error = None
 
     def end(self, error=None):
@@ -45,7 +45,7 @@ def create(request, response, error):
         if response.max_age:
             http_response.headers['Access-Control-Max-Age'] = \
                 str(response.max_age)
-        http_response.status = 200
+        http_response.status = '200 OK'
         http_response.end()
     else:
         if len(response.expose_headers):

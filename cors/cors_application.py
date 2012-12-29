@@ -14,10 +14,9 @@ class CorsApplication(object):
         response = request.get_response(self._app)
         cors_response = self._handler.handle(request.method, request.headers)
 
-        status = str(cors_response.status)
         headers = cors_response.headers
         if cors_response.state == ResponseState.END:
-            start_response(status, headers.items())
+            start_response(cors_response.status, headers.items())
             return []
         else:
             for key, value in headers.items():
