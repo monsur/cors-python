@@ -8,7 +8,7 @@ class CorsError(Exception):
 class AllowOriginError(CorsError):
 
     def __init__(self, origin):
-        CorsError.__init__(self, 400)
+        CorsError.__init__(self, 403)
         self.origin = origin
 
     def __str__(self):
@@ -18,7 +18,7 @@ class AllowOriginError(CorsError):
 class AllowMethodsError(CorsError):
 
     def __init__(self, request_method):
-        CorsError.__init__(self, 400)
+        CorsError.__init__(self, 405)
         self.request_method = request_method
 
     def __str__(self):
@@ -28,7 +28,7 @@ class AllowMethodsError(CorsError):
 class AllowHeadersError(CorsError):
 
     def __init__(self, invalid_headers):
-        CorsError.__init__(self, 400)
+        CorsError.__init__(self, 403)
         self.invalid_headers = invalid_headers
 
     def __str__(self):
