@@ -1,9 +1,9 @@
-class ResponseState:
+class ResponseState(object):
     END = 1
     CONTINUE = 2
 
 
-class HttpResponse:
+class HttpResponse(object):
 
     def __init__(self):
         self.headers = {}

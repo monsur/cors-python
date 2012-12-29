@@ -10,7 +10,7 @@ def create(obj):
     raise Exception('Validator not found for type: %s' % str(obj_type))
 
 
-class Validator:
+class Validator(object):
 
     def __init__(self):
         pass

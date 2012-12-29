@@ -2,7 +2,7 @@ import filters
 import http_response
 
 
-class CorsHandler:
+class CorsHandler(object):
 
     def __init__(self, options):
         self._filters = filters.Filters(options)

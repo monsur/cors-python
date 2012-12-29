@@ -6,7 +6,7 @@ ALL_ORIGINS = '*'
 DEFAULT_METHODS = ['HEAD', 'GET', 'PUT', 'POST', 'DELETE']
 
 
-class CorsOptions:
+class CorsOptions(object):
 
     def __init__(self,
                  allow_origins=True,

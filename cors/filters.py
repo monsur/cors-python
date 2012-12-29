@@ -59,7 +59,7 @@ class Filters(object):
             return self.non_cors_filters
 
 
-class Filter:
+class Filter(object):
 
     def __init__(self, options):
         self.options = options
