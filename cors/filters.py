@@ -10,7 +10,6 @@ class Filters(object):
             'allow_methods': AllowMethodsFilter(options),
             'allow_non_cors_request': AllowNonCorsRequestFilter(options),
             'allow_origin': AllowOriginFilter(options),
-            'cors': CorsFilter(options),
             'expose_headers': ExposeHeadersFilter(options),
             'max_age': MaxAgeFilter(options),
             'vary': VaryFilter(options)
