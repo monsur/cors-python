@@ -1,10 +1,18 @@
 class ResponseState(object):
-    END = 1
-    CONTINUE = 2
+    """Indicates how the response should behave."""
+
+    END = 1      # The response should end. Do not pass go. Do not collect $200.
+    CONTINUE = 2 # The response should continue to the downstream handlers.
 
 
 class HttpResponse(object):
+    """Stores the CORS-specific response details.
 
+    This class contains any response headers that should be set on the response,
+    as well as a state property, which indicates whether the request should
+    continue or end. If the response ends, the status property indicates the
+    recommended HTTP status code for the response.
+    """
     def __init__(self):
         self.headers = {}
         self.state = ResponseState.CONTINUE
@@ -18,16 +26,28 @@ class HttpResponse(object):
         self.state = ResponseState.END
 
 
-def create(request, response, error):
+def create(request, response, error=None):
+    """Creates a new HttpResponse instance.
+
+    Args:
+      request (CorsRequest) - The request details.
+      response (CorsResponse) - The response details.
+      error (CorsException) - The error (if any). Defaults to None.
+    """
     http_response = HttpResponse()
 
+    # Set any generic response headers (such as Vary).
     for key, value in response.headers.items():
         http_response.headers[key] = value
 
     if error:
+        # If there is an error, return immediately, do not set any CORS-specific
+        # headers.
         http_response.end(error)
         return http_response
 
+    # The Access-Control-Allow-Origin and Access-Control-Allow-Credentials are
+    # set on both CORS and preflight responses.
     if response.allow_origin:
         http_response.headers['Access-Control-Allow-Origin'] = \
             response.allow_origin
@@ -36,6 +56,7 @@ def create(request, response, error):
             'true'
 
     if request.is_preflight:
+        # Set the preflight-only headers.
         if len(response.allow_methods):
             http_response.headers['Access-Control-Allow-Methods'] = \
                 ','.join(response.allow_methods)
@@ -48,6 +69,7 @@ def create(request, response, error):
         http_response.status = '200 OK'
         http_response.end()
     else:
+        # Set the CORS-only headers.
         if len(response.expose_headers):
             http_response.headers['Access-Control-Expose-Headers'] = \
                 ','.join(response.expose_headers)

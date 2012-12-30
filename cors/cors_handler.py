@@ -1,13 +1,20 @@
+"""Processes a CORS request."""
+
 import filters
 import http_response
 
 
 class CorsHandler(object):
+    """Processes a CORS request and returns the CORS response."""
 
     def __init__(self, options):
         self._filters = filters.Filters(options)
 
     def handle(self, http_method=None, headers=None):
+        """Processes a CORS request and returns the CORS response.
+
+        Returns an object with the HTTP headers to set on the response.
+        """
         request = CorsRequest(http_method, headers)
         response = CorsResponse()
 

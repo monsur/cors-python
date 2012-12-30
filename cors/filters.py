@@ -98,7 +98,7 @@ class AllowHeadersFilter(Filter):
 
         if len(not_valid):
             response.allow_headers = headers_value
-            return errors.AllowHeadersError(not_valid)
+            return errors.HeadersError(not_valid)
 
         if not headers_value:
             headers_value = valid
@@ -118,7 +118,7 @@ class AllowMethodsFilter(Filter):
 
         if not is_valid:
             response.allow_methods = allow_methods
-            return errors.AllowMethodsError(request.request_method)
+            return errors.MethodError(request.request_method)
 
         if not allow_methods:
             allow_methods = [request.request_method]
@@ -148,7 +148,7 @@ class AllowOriginFilter(Filter):
 
         if not is_valid_origin:
             response.allow_origin = origin_value
-            return errors.AllowOriginError(origin)
+            return errors.OriginError(origin)
 
         if (self.options.allow_credentials or
             not origin_value):

@@ -1,11 +1,13 @@
 class CorsError(Exception):
+    """Base exception for all CORS-related errors."""
 
     def __init__(self, status='500 Internal Server Error'):
         Exception.__init__(self, status)
         self.status = status
 
 
-class AllowOriginError(CorsError):
+class OriginError(CorsError):
+    """Invalid request origin."""
 
     def __init__(self, origin):
         CorsError.__init__(self, '403 Forbidden')
@@ -15,7 +17,8 @@ class AllowOriginError(CorsError):
         return 'Disallowed origin: %s' % self.origin
 
 
-class AllowMethodsError(CorsError):
+class MethodError(CorsError):
+    """Invalid request method."""
 
     def __init__(self, request_method):
         CorsError.__init__(self, '405 Method Not Allowed')
@@ -25,7 +28,8 @@ class AllowMethodsError(CorsError):
         return 'HTTP method %s not allowed.' % self.request_method
 
 
-class AllowHeadersError(CorsError):
+class HeadersError(CorsError):
+    """Invalid request header(s)."""
 
     def __init__(self, invalid_headers):
         CorsError.__init__(self, '403 Forbidden')
@@ -36,6 +40,7 @@ class AllowHeadersError(CorsError):
 
 
 class NonCorsRequestError(CorsError):
+    """Non-cors request (if non-cors requests are disabled)."""
 
     def __init__(self):
         CorsError.__init__(self, '400 Bad Request')
