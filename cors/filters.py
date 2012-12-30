@@ -1,3 +1,5 @@
+"""Defines the filters for processing CORS requests."""
+
 import errors
 
 
@@ -59,6 +61,17 @@ class Filters(object):
 
 
 class Filter(object):
+    """
+    The CORS request is processed through a series of filters. Each filter is
+    responsible for a single activity (for example, validating the Origin
+    header). Filters derive from this Filter class, which implements a single
+    filter() method. The filter() method takes in a request and response object.
+    The request stores all the CORS-related information from the request, while
+    the response object stores any CORS-related information to set on the HTTP
+    response. If there is an error processing the response, the filter() method
+    returns a CorsException (note the exception is not thrown, it is returned).
+    If there are no errors, the filter() method returns None.
+    """
 
     def __init__(self, options):
         self.options = options
