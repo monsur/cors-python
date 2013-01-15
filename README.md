@@ -1,7 +1,7 @@
 # cors-python
 
 A server-side CORS implementation for Python. This library is currently under
-construction and is a very pre-alpha release. Testing and feedback welcome!
+construction and is a very early alpha release. Testing and feedback welcome!
 
 
 # Installation
