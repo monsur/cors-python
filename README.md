@@ -1,8 +1,25 @@
 # cors-python
 
-A server-side CORS implementation for Python. This library is currently under
-construction and is a very early alpha release. Testing and feedback welcome!
+A server-side CORS implementation for Python. This library is an early alpha
+release. Testing and feedback welcome!
 
+# Details
+
+CORS can easily be enabled by setting the `Access-Control-Allow-Origin: *'
+response header. And for many resources that is sufficient. But if your API goes
+beyond simple requests, there are many edge cases that can make CORS
+difficult to work with.
+
+This library aims to make CORS easy: give it your request info, and
+it spits out the CORS response headers. All the details of handling preflights
+are managed for you. Its features include:
+
+* Configure all aspects of CORS. Make your API as open as you like.
+* Custom validators give you control over exactly which origins, methods and headers are allowed.
+* Ease-of-use. Sits on top of your application with ~ 2 lines of code (see example below).
+* Errors can either fire immediately or pass through to your app.
+* Supports the "Vary" header, which is sometimes needed to avoid caching by proxy servers.
+* Can be adapted to work with most apps.
 
 # Installation
 
@@ -20,9 +37,9 @@ cors_application.py middleware:
 
 The CorsOptions class accepts the following properties:
 
-_allow\_origins_ (Validator) - The origins that are allowed. Set to True to allow
-all origins, or to a list of valid origins. Defaults to True, which allows all
-origins, and appends the `Access-Control-Allow-Origin: *` response header.
+_allow\_origins_ (Validator) - The origins that are allowed. Set to True to
+allow all origins, or to a list of valid origins. Defaults to True, which allows
+all origins, and appends the `Access-Control-Allow-Origin: *` response header.
 
 _allow\_credentials_ (bool) - Whether or not the app supports credentials. If
 True, appends the `Access-Control-Allow-Credentials: true` header. Defaults to
@@ -41,9 +58,9 @@ _expose\_headers_ (list of strings) - List of response headers to expose to the
 client. Defaults to None. Appends the `Access-Control-Expose-Headers` response
 header.
 
-_max\_age_ (int) - The maximum time (in seconds) to cache the preflight response.
-Defaults to None, which doesn't append any response headers. Appends the
-`Access-Control-Max-Age` header when set.
+_max\_age_ (int) - The maximum time (in seconds) to cache the preflight
+response. Defaults to None, which doesn't append any response headers. Appends
+the `Access-Control-Max-Age` header when set.
 
 _vary_ (bool) - Set to True if the `Vary: Origin` header should be appended to
 the response, False otherwise. The `Vary` header is useful when used in
