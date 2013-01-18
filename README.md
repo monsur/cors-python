@@ -5,7 +5,7 @@ release. Testing and feedback welcome!
 
 # Details
 
-CORS can easily be enabled by setting the `Access-Control-Allow-Origin: *'
+CORS can easily be enabled by setting the `Access-Control-Allow-Origin: *`
 response header. And for many resources that is sufficient. But if your API goes
 beyond simple requests, there are many edge cases that can make CORS
 difficult to work with.
