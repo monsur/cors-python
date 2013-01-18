@@ -158,11 +158,15 @@ class AllowOriginFilter(Filter):
     def filter(self, request, response):
         origin_value = self.options.origin_value
         if origin_value == cors_options.ALL_ORIGINS:
+            # If all origins are allowed (i.e. the value is '*'), then set
+            # Access-Control-Allow-Origin to '*', regardless of request type.
             response.allow_origin = origin_value
             return
 
         origin = request.origin
         if origin is None:
+          # If there is no Origin (i.e. this is a non-CORS request), stop
+          # processing.
           return
 
         is_valid_origin = self.options.origin_validator.is_valid(origin)
