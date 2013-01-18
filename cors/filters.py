@@ -1,6 +1,7 @@
 """Defines the filters for processing CORS requests."""
 
 import errors
+import logging
 
 
 class Filters(object):
@@ -47,8 +48,10 @@ class Filters(object):
         filters = self.choose_filters(request)
         for f in filters:
             error = f.filter(request, response)
-            if error and not self.continue_on_error:
-                return error
+            if error:
+                logging.error(error)
+                if not self.continue_on_error:
+                    return error
         return None
 
     def choose_filters(self, request):
