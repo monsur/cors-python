@@ -1,6 +1,5 @@
 """Defines the filters for processing CORS requests."""
 
-import cors_options
 import errors
 
 
@@ -33,7 +32,6 @@ class Filters(object):
                 'max_age')
 
         self.non_cors_filters = self.create_filters(all_filters,
-            'allow_origin',
             'vary',
             'allow_non_cors_request')
 
@@ -156,20 +154,10 @@ class AllowOriginFilter(Filter):
         Filter.__init__(self, options)
 
     def filter(self, request, response):
-        origin_value = self.options.origin_value
-        if origin_value == cors_options.ALL_ORIGINS:
-            # If all origins are allowed (i.e. the value is '*'), then set
-            # Access-Control-Allow-Origin to '*', regardless of request type.
-            response.allow_origin = origin_value
-            return
-
         origin = request.origin
-        if origin is None:
-          # If there is no Origin (i.e. this is a non-CORS request), stop
-          # processing.
-          return
-
         is_valid_origin = self.options.origin_validator.is_valid(origin)
+
+        origin_value = self.options.origin_value
 
         if not is_valid_origin:
             response.allow_origin = origin_value
