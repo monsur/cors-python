@@ -106,10 +106,7 @@ class CorsOptions(object):
             self.headers_value = allow_headers
 
         if vary is None:
-            if self.origin_value == ALL_ORIGINS:
-                vary = False
-            else:
-                vary = True
+            vary = True
         self.vary = vary
 
         self.allow_non_cors_requests = allow_non_cors_requests

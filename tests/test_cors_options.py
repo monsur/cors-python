@@ -20,7 +20,7 @@ class TestCorsOptions(unittest.TestCase):
         self.assertIsNone(o.headers_value)
         self.assertEquals([], o.expose_headers)
         self.assertFalse(o.allow_credentials)
-        self.assertFalse(o.vary)
+        self.assertTrue(o.vary)
         self.assertIsNone(o.max_age)
 
     def test_originsList(self):
