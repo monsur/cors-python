@@ -51,7 +51,7 @@ class TestCorsRequest(unittest.TestCase):
         self.assertTrue(req.is_cors)
         self.assertFalse(req.is_preflight)
 
-    def test_notPreflight1(self):
+    def test_notPreflight2(self):
         headers = {}
         headers['Origin'] = 'http://github.com'
         req = CorsRequest('OPTIONS', headers)
