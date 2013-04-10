@@ -44,7 +44,7 @@ class TestCorsOptions(unittest.TestCase):
 
     def test_invalidMaxAge(self):
         try:
-            o = CorsOptions(max_age='foo')
+            _ = CorsOptions(max_age='foo')
         except:
             return
         self.fail('Expected TypeError')
