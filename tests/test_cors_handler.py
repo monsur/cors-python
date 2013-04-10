@@ -1,5 +1,5 @@
 import unittest
-from cors_request import CorsRequest
+from cors_handler import CorsRequest
 
 
 class TestCorsRequest(unittest.TestCase):

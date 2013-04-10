@@ -2,8 +2,8 @@ import unittest
 import errors
 import filters
 from cors_options import CorsOptions
-from cors_request import CorsRequest
-from cors_response import CorsResponse
+from cors_handler import CorsRequest
+from cors_handler import CorsResponse
 
 
 class TestAllowCredentialsFilter(unittest.TestCase):
