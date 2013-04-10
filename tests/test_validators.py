@@ -10,7 +10,7 @@ class TestValidators(unittest.TestCase):
         self.subtest_create(validators.ListValidator, [])
 
         try:
-            cors.validators.create({})
+            validators.create({})
             self.fail('Expected exception')
         except Exception:
             return
