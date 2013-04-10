@@ -22,13 +22,13 @@ class TestValidators(unittest.TestCase):
 
 class TestBooleanValidator(unittest.TestCase):
 
-  def test_true(self):
-    true_validator = validators.BooleanValidator(True)
-    self.assertTrue(true_validator.is_valid('random value'))
+    def test_true(self):
+        true_validator = validators.BooleanValidator(True)
+        self.assertTrue(true_validator.is_valid('random value'))
 
-  def test_false(self):
-    false_validator = validators.BooleanValidator(False)
-    self.assertFalse(false_validator.is_valid('random value'))
+    def test_false(self):
+        false_validator = validators.BooleanValidator(False)
+        self.assertFalse(false_validator.is_valid('random value'))
 
 
 class TestListValidator(unittest.TestCase):
