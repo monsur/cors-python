@@ -2,8 +2,8 @@ import unittest
 import errors
 import filters
 from cors_options import CorsOptions
-from cors_request import CorsRequest
-from cors_response import CorsResponse
+from cors_handler import CorsRequest
+from cors_handler import CorsResponse
 
 
 class TestAllowCredentialsFilter(unittest.TestCase):
@@ -41,60 +41,60 @@ class TestAllowNonCorsRequestFilter(unittest.TestCase):
 class TestAllowOriginFilter(unittest.TestCase):
 
     def test_allowAllOrigins(self):
-      options = CorsOptions()
-      f = filters.AllowOriginFilter(options)
+        options = CorsOptions()
+        f = filters.AllowOriginFilter(options)
 
-      # Test with no Origin
-      request = CorsRequest()
-      response = CorsResponse()
-      error = f.filter(request, response)
-      self.assertIsNone(error)
-      self.assertEquals('*', response.allow_origin)
+        # Test with no Origin
+        request = CorsRequest()
+        response = CorsResponse()
+        error = f.filter(request, response)
+        self.assertIsNone(error)
+        self.assertEquals('*', response.allow_origin)
 
-      # Test CORS request
-      request = CorsRequest('GET', {'Origin': 'http://foo.com'})
-      response = CorsResponse()
-      error = f.filter(request, response)
-      self.assertIsNone(error)
-      self.assertEquals('*', response.allow_origin)
+        # Test CORS request
+        request = CorsRequest('GET', {'Origin': 'http://foo.com'})
+        response = CorsResponse()
+        error = f.filter(request, response)
+        self.assertIsNone(error)
+        self.assertEquals('*', response.allow_origin)
 
-      # Test CORS preflight request
-      request = CorsRequest('OPTIONS', {
+        # Test CORS preflight request
+        request = CorsRequest('OPTIONS', {
           'Origin': 'http://foo.com',
           'Access-Control-Request-Method': 'GET'
-      })
-      response = CorsResponse()
-      error = f.filter(request, response)
-      self.assertIsNone(error)
-      self.assertEquals('*', response.allow_origin)
+        })
+        response = CorsResponse()
+        error = f.filter(request, response)
+        self.assertIsNone(error)
+        self.assertEquals('*', response.allow_origin)
 
     def test_invalidOrigin(self):
-      options = CorsOptions(allow_origins=['http://foo.com'])
-      f = filters.AllowOriginFilter(options)
-      request = CorsRequest('GET', {'Origin': 'http://bar.com'})
-      response = CorsResponse()
-      error = f.filter(request, response)
-      self.assertIsInstance(error, errors.OriginError)
-      self.assertIsNone(response.allow_origin)
+        options = CorsOptions(allow_origins=['http://foo.com'])
+        f = filters.AllowOriginFilter(options)
+        request = CorsRequest('GET', {'Origin': 'http://bar.com'})
+        response = CorsResponse()
+        error = f.filter(request, response)
+        self.assertIsInstance(error, errors.OriginError)
+        self.assertIsNone(response.allow_origin)
 
     def test_validOrigin(self):
-      options = CorsOptions(allow_origins=['http://foo.com'])
-      f = filters.AllowOriginFilter(options)
-      request = CorsRequest('GET', {'Origin': 'http://foo.com'})
-      response = CorsResponse()
-      error = f.filter(request, response)
-      self.assertIsNone(error)
-      self.assertEquals('http://foo.com', response.allow_origin)
+        options = CorsOptions(allow_origins=['http://foo.com'])
+        f = filters.AllowOriginFilter(options)
+        request = CorsRequest('GET', {'Origin': 'http://foo.com'})
+        response = CorsResponse()
+        error = f.filter(request, response)
+        self.assertIsNone(error)
+        self.assertEquals('http://foo.com', response.allow_origin)
 
     def test_allowCredentials(self):
-      options = CorsOptions(allow_origins=True,
-                            allow_credentials=True)
-      f = filters.AllowOriginFilter(options)
-      request = CorsRequest('GET', {'Origin': 'http://foo.com'})
-      response = CorsResponse()
-      error = f.filter(request, response)
-      self.assertIsNone(error)
-      self.assertEquals('http://foo.com', response.allow_origin)
+        options = CorsOptions(allow_origins=True,
+                              allow_credentials=True)
+        f = filters.AllowOriginFilter(options)
+        request = CorsRequest('GET', {'Origin': 'http://foo.com'})
+        response = CorsResponse()
+        error = f.filter(request, response)
+        self.assertIsNone(error)
+        self.assertEquals('http://foo.com', response.allow_origin)
 
 
 class TestExposeHeadersFilter(unittest.TestCase):
@@ -137,15 +137,15 @@ class TestVaryFilter(unittest.TestCase):
     def test_addHeader(self):
         options = CorsOptions(vary=True)
         response = CorsResponse()
-        filter = filters.VaryFilter(options)
-        filter.filter(None, response)
+        filtr = filters.VaryFilter(options)
+        filtr.filter(None, response)
         self.assertEquals('Origin', response.headers['Vary'])
 
     def test_noHeader(self):
         options = CorsOptions(vary=False)
         response = CorsResponse()
-        filter = filters.VaryFilter(options)
-        filter.filter(None, response)
+        filtr = filters.VaryFilter(options)
+        filtr.filter(None, response)
         self.assertFalse('Vary' in response.headers)
 
 
