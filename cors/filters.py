@@ -3,6 +3,8 @@
 import errors
 import logging
 
+from cors import constants
+
 
 class Filters(object):
 
@@ -18,23 +20,29 @@ class Filters(object):
             'vary': VaryFilter(options)
         }
 
-        self.cors_filters = self.create_filters(all_filters,
-                'vary',
-                'allow_origin',
-                'allow_credentials',
-                'expose_headers')
+        self.cors_filters = self.create_filters(
+          all_filters,
+          'vary',
+          'allow_origin',
+          'allow_credentials',
+          'expose_headers'
+        )
 
-        self.preflight_filters = self.create_filters(all_filters,
-                'vary',
-                'allow_origin',
-                'allow_methods',
-                'allow_headers',
-                'allow_credentials',
-                'max_age')
+        self.preflight_filters = self.create_filters(
+          all_filters,
+          'vary',
+          'allow_origin',
+          'allow_methods',
+          'allow_headers',
+          'allow_credentials',
+          'max_age'
+        )
 
-        self.non_cors_filters = self.create_filters(all_filters,
-            'vary',
-            'allow_non_cors_request')
+        self.non_cors_filters = self.create_filters(
+          all_filters,
+          'vary',
+          'allow_non_cors_request'
+        )
 
         self.continue_on_error = options.continue_on_error
 
@@ -65,10 +73,13 @@ class Filters(object):
 
 class Filter(object):
     """
-    The CORS request is processed through a series of filters. Each filter is
-    responsible for a single activity (for example, validating the Origin
-    header). Filters derive from this Filter class, which implements a single
-    filter() method. The filter() method takes in a request and response object.
+    The CORS request is processed through a series of filters.
+
+    Each filter is responsible for a single activity (for example, validating
+    the Origin header). Filters derive from this Filter class, which implements
+    a single filter() method. The filter() method takes in a request and
+    response object.
+
     The request stores all the CORS-related information from the request, while
     the response object stores any CORS-related information to set on the HTTP
     response. If there is an error processing the response, the filter() method
@@ -166,8 +177,7 @@ class AllowOriginFilter(Filter):
             response.allow_origin = origin_value
             return errors.OriginError(origin)
 
-        if (self.options.allow_credentials or
-            not origin_value):
+        if self.options.allow_credentials or not origin_value:
             origin_value = origin
 
         response.allow_origin = origin_value
@@ -200,5 +210,4 @@ class VaryFilter(Filter):
 
     def filter(self, request, response):
         if self.options.vary:
-            response.headers['Vary'] = 'Origin'
-
+            response.headers[constants.VARY] = constants.ORIGIN
