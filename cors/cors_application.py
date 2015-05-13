@@ -1,16 +1,25 @@
 """WSGI middleware for handling CORS requests."""
 
 import webob
-from cors_handler import CorsHandler
-from http_response import ResponseState
+
+from cors import cors_handler
+from cors import http_response
 
 
 class CorsApplication(object):
     """WSGI middleware for handling CORS requests."""
 
     def __init__(self, app, options=None):
+        self._handler = cors_handler.CorsHandler(options)
         self.app = app
-        self.handler = CorsHandler(options)
+
+    @property
+    def handler(self):
+        return self._handler
+
+    @handler.setter
+    def handler(self, value):
+        self._handler = value
 
     def __call__(self, environ, start_response):
         # Retrieve the CORS response details.
@@ -18,7 +27,7 @@ class CorsApplication(object):
         cors_response = self.handler.handle(request.method, request.headers)
 
         headers = cors_response.headers
-        if cors_response.state == ResponseState.END:
+        if cors_response.state == http_response.ResponseState.END:
             # Response should end immediately. Set the status and any headers
             # and exit.
             start_response(cors_response.status, headers.items())

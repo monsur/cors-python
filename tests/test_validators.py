@@ -1,5 +1,7 @@
+import re
 import unittest
-import validators
+
+from cors import validators
 
 
 class TestValidators(unittest.TestCase):
@@ -14,7 +16,6 @@ class TestValidators(unittest.TestCase):
             self.fail('Expected exception')
         except Exception:
             return
-
 
     def subtest_create(self, t, v):
         self.assertTrue(isinstance(validators.create(v), t))
@@ -47,6 +48,15 @@ class TestListValidator(unittest.TestCase):
         v = validators.ListValidator(['A', 'b', 'C'])
         self.assertTrue(v.is_valid('a'))
         self.assertTrue(v.is_valid('B'))
+
+
+class TestRegexValidator(unittest.TestCase):
+
+    def test_valid(self):
+        pattern = re.compile("foo")
+        v = validators.RegexValidator(pattern)
+        self.assertTrue(v.is_valid('foo'))
+        self.assertFalse(v.is_valid('bar'))
 
 
 if __name__ == '__main__':
